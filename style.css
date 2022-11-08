@@ -1,0 +1,44 @@
+* {
+	font-size: 14px;
+}
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+[v-cloak] {
+	display: none;
+}
+
+/* bending data */
+.bending-data {
+	display: none;
+}
+.visible-box--red {
+	background-color: red;
+}
+
+.visible-box--green {
+	background-color: green;
+}
+.visible-box--blue {
+	background-color: blue;
+}
+.phisical-box {
+	width: 200px;
+	height: 200px;
+}
+/* bending data */
+
+.ev-me__button {
+	font-size: 14px;
+	background-color: rgba(94, 185, 2, 0.836);
+	padding: 12px;
+	border: unset;
+	color: white;
+	border-radius: 4px;
+}
+.ev-me__show-box {
+	background-color: blueviolet;
+}

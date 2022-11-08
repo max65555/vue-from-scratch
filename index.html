@@ -5,11 +5,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="https://yt3.ggpht.com/ytc/AMLnZu9UWrGceKWaqm8AF89vuxrEt8MO3E59qOoQ785Lew=s48-c-k-c0x00ffffff-no-rj">
     <title>Vue</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<!--//////////////
+                bending data
+                 //////////-->
 
 <body>
-
+    <div id="app" v-cloak>
+        <div class="container">
+            <!--//////////////
+                bending data
+                 //////////-->
+            <div class="bending-data">
+                <div>
+                    <h1>
+                        {{message}}
+                    </h1>
+                </div>
+                <div>
+                    <input type="text" v-model="message">
+                </div>
+                <div>
+                    <input type="checkbox" v-model="isVisibleBoxRed">
+                    <label for="">red
+                    </label>
+                    <input type="checkbox" v-model="isVisibleBoxGreen">
+                    <label for="">green
+                        <input type="checkbox" v-model="isVisibleBoxBlue">
+                    </label><label for="">blue
+                    </label>
+                </div>
+                <div v-if="isVisibleBoxRed" class="visible-box--red phisical-box">
+                    <!-- Visible Text -->
+                </div>
+                <div v-else-if="isVisibleBoxGreen" class="visible-box--green phisical-box">
+                    <!-- Visible Text -->
+                </div>
+                <div v-else class="visible-box--blue phisical-box">
+                    <!-- Visible Text -->
+                </div>
+            </div>
+            <!--//////////////
+                Events & Methods
+             //////////-->
+            <div class="container">
+                <button class="ev-me__button" @click="OnClickEvent">
+                    Click Me
+                </button>
+                <div v-if="evMeBox" class="ev-me__show-box phisical-box">
+                </div>
+                <div>
+                    <label for="">KeyUp Event</label>
+                    <input v-if="visibleInput" v-model="greeting(this)" type="text" name="" id=""
+                        v-on:keyup.enter="keyUpEvent">
+                </div>
+                <h2> {{greeting}}</h2>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="main.js"></script>
 
 </html>
