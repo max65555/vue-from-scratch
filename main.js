@@ -36,8 +36,8 @@ app.component('login-form', {
 	template: `
 	<h1>{{greeting}}</h1>
 	<form v-on:submit.prevent="HandleSubmit" class="center-box">
-	<input type="text" placeholder="username" v-model=userName>		
-	<input type="text" placeholder="password" v-model=password>		
+	<custom-input />		
+	<custom-input />		
 	<button >Login</button>		
 	</form>
 	`,
@@ -55,10 +55,17 @@ app.component('login-form', {
 			console.log('Submit Form');
 		},
 	},
+	components: ['custom-input'],
 });
 app.component('custom-input', {
+	data: function () {
+		return {
+			title: 'Le Khanh Toan',
+		};
+	},
 	template: `
 		<div class="component__custom-input--container">
+			<h1>{{title}}</h1>
 			<input type="text" v-model="input_data" placeholder="placeholder" class="component__custom-input--input">
 		</div>
 	`,
