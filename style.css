@@ -1,7 +1,15 @@
 * {
 	font-size: 14px;
+	/* padding: 8px; */
+	margin: 8px;
 }
 .container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.center-box {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -41,4 +49,17 @@
 }
 .ev-me__show-box {
 	background-color: blueviolet;
+}
+
+/* components */
+.component__custom-input--container {
+	/* padding: 12px; */
+}
+.component__custom-input--input {
+	padding: 8px;
+	font-size: 14px;
+	margin: 0px;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	outline: unset;
 }
