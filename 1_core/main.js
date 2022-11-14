@@ -32,42 +32,71 @@ function log(message) {
 // 	},
 // });
 let app = Vue.createApp();
+// login form component
+////////////////////
 app.component('login-form', {
 	template: `
-	<h1>{{greeting}}</h1>
 	<form v-on:submit.prevent="HandleSubmit" class="center-box">
-	<custom-input />		
-	<custom-input />		
-	<button >Login</button>		
+
+	</span>		
+	<custom-input v-for="(input,i) in inputs" :key= "i"
+	 v-model="input.value" :label="input.label" :type="input.type"/> 			
+	<button type="submit">Login</button>		
 	</form>
 	`,
 	data: function () {
 		return {
-			userName: '',
-			password: '',
+			greeting: 'hello',
+			userName: '123',
+			password: '123',
+			userNameLabel: 'Email',
+			passwordLabel: 'password',
+			inputs: [
+				{
+					label: 'Email',
+					value: '',
+					type: 'email',
+				},
+				{
+					label: 'password',
+					value: '',
+					type: 'password',
+				},
+			],
 		};
 	},
 	methods: {
-		CheckLogin: function () {
-			log(this.userName + ' __ ' + this.password);
-		},
 		HandleSubmit: function () {
-			console.log('Submit Form');
+			log(this.inputs[0].value + ' __ ' + this.inputs[1].value);
 		},
 	},
 	components: ['custom-input'],
 });
+// custom input component
+////////////////////
 app.component('custom-input', {
 	data: function () {
 		return {
 			title: 'Le Khanh Toan',
 		};
 	},
+	computed: {
+		inputValue: {
+			get() {
+				return this.modelValue;
+			},
+			set(value) {
+				this.$emit('update:modelValue', value);
+			},
+		},
+	},
+	props: ['label', 'type', 'modelValue'],
 	template: `
 		<div class="component__custom-input--container">
-			<h1>{{title}}</h1>
-			<input type="text" v-model="input_data" placeholder="placeholder" class="component__custom-input--input">
-		</div>
-	`,
+			<label>{{label}}
+			<input :type="type" placeholder="placeholder" class="component__custom-input--input" v-model="inputValue">
+			</label>
+			</div>
+		`,
 });
 app.mount('#app');
