@@ -2,22 +2,20 @@ let app = Vue.createApp({
 	data() {
 		return {
 			isSideBarHiding: false,
-			inventory: {
-				carrots: 0,
-				pineapples: 0,
-				cherries: 0,
-			},
-			cart: {
-				carrots: 0,
-				pineapples: 0,
-				cherries: 0,
-			},
+			inventory: [],
+			cart: {},
 		};
 	},
+	async mounted() {
+		const res = await fetch('./food.json');
+		const data = await res.json();
+		this.inventory = data;
+		console.log(this.inventory);
+	},
 	methods: {
-		addToCart(type) {
-			//receive type and number
-			this.cart[type] += this.inventory[type];
+		addToCart(name, index) {
+			if (!this.cart[name]) this.cart[name] = 0;
+			this.cart[name] += this.inventory[index].quantity;
 			console.log(this.cart);
 		},
 		showSideBar() {
@@ -27,7 +25,18 @@ let app = Vue.createApp({
 	},
 });
 app.component('side-bar', {
-	props: ['toggle'],
+	props: ['toggle', 'cart', 'inventory'],
+	computed: {
+		cartTotal: function () {
+			return (this.cart.carrots * 4.82).toFixed(2);
+		},
+	},
+	methods: {
+		roundDollars(value) {
+			return value.toFixed(2);
+		},
+	},
+
 	template: `
 	<aside class="cart-container">
 		<div class="cart">
@@ -56,14 +65,14 @@ app.component('side-bar', {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
+						<tr v-for="(item,i) in cart" :key="i">
+							<td>		
 								<i class="icofont-carrot icofont-3x"></i>
 							</td>
-							<td>Carrot</td>
-							<td>$1.00</td>
-							<td class="center">1</td>
-							<td>$1.00</td>
+							<td></td>
+							<td>$4.82</td>
+							<td class="center">{{cart.carrots}}</td>
+							<td>\${{roundDollars(cart.carrots* 4.82)}}</td>
 							<td class="center">
 								<button class="btn btn-light cart-remove">
 									&times;
@@ -78,7 +87,7 @@ app.component('side-bar', {
 				</p>
 				<div class="spread">
 					<span>
-						<strong>Total:</strong> $1.00
+						<strong>Total:</strong> \${{cartTotal}}
 					</span>
 					<button class="btn btn-light">Checkout</button>
 				</div>
