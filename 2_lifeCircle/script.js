@@ -21,3 +21,4 @@ app.component('purple-box', {
 	props: ['isVisible'],
 });
 app.mount('#app');
+conso;
