@@ -35,6 +35,18 @@ app.component('side-bar', {
 		roundDollars(value) {
 			return value.toFixed(2);
 		},
+		getPrice(name) {
+			const product = this.inventory.find((p) => {
+				return p.name === name;
+			});
+			return product.price.USD;
+		},
+		calculateTotal() {
+			const total = Object.entries(this.cart).reduce((acc, curr, index) => {
+				return acc + curr[1] * this.getPrice(curr[0]);
+			}, 0);
+			return total.toFixed(2);
+		},
 	},
 
 	template: `
@@ -65,13 +77,13 @@ app.component('side-bar', {
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(item,i) in cart" :key="i">
+						<tr v-for="(quantity,key,i) in cart" :key="i">
 							<td>		
 								<i class="icofont-carrot icofont-3x"></i>
 							</td>
-							<td></td>
-							<td>$4.82</td>
-							<td class="center">{{cart.carrots}}</td>
+							<td>{{key}}</td>
+							<td>\${{getPrice(key)}}</td>
+							<td class="center">{{quantity}}</td>
 							<td>\${{roundDollars(cart.carrots* 4.82)}}</td>
 							<td class="center">
 								<button class="btn btn-light cart-remove">
@@ -87,7 +99,7 @@ app.component('side-bar', {
 				</p>
 				<div class="spread">
 					<span>
-						<strong>Total:</strong> \${{cartTotal}}
+						<strong>Total:</strong> \${{calculateTotal()}}
 					</span>
 					<button class="btn btn-light">Checkout</button>
 				</div>
