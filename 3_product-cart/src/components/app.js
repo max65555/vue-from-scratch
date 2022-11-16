@@ -10,22 +10,29 @@ let app = Vue.createApp({
 		const res = await fetch('./food.json');
 		const data = await res.json();
 		this.inventory = data;
-		console.log(this.inventory);
+		// console.log(this.inventory);
 	},
 	methods: {
 		addToCart(name, index) {
 			if (!this.cart[name]) this.cart[name] = 0;
 			this.cart[name] += this.inventory[index].quantity;
-			console.log(this.cart);
+			this.inventory[index].quantity = 0;
 		},
 		showSideBar() {
 			console.log(this.isSideBarHiding);
 			this.isSideBarHiding = !this.isSideBarHiding;
 		},
+		removeItem(name) {
+			console.log(name);
+			delete this.cart[name];
+		},
+		totalQuantity() {
+			return Object.entries(this.cart).length;
+		},
 	},
 });
 app.component('side-bar', {
-	props: ['toggle', 'cart', 'inventory'],
+	props: ['toggle', 'cart', 'inventory', 'remove'],
 	computed: {
 		cartTotal: function () {
 			return (this.cart.carrots * 4.82).toFixed(2);
@@ -42,8 +49,8 @@ app.component('side-bar', {
 			return product.price.USD;
 		},
 		calculateTotal() {
-			const total = Object.entries(this.cart).reduce((acc, curr, index) => {
-				return acc + curr[1] * this.getPrice(curr[0]);
+			const total = Object.entries(this.cart).reduce((sum, curr) => {
+				return sum + curr[1] * this.getPrice(curr[0]);
 			}, 0);
 			return total.toFixed(2);
 		},
@@ -84,9 +91,9 @@ app.component('side-bar', {
 							<td>{{key}}</td>
 							<td>\${{getPrice(key)}}</td>
 							<td class="center">{{quantity}}</td>
-							<td>\${{roundDollars(cart.carrots* 4.82)}}</td>
+							<td>\${{quantity * getPrice(key)}}</td>
 							<td class="center">
-								<button class="btn btn-light cart-remove">
+								<button @click="remove(key)" class="btn btn-light cart-remove">
 									&times;
 								</button>
 							</td>
@@ -94,7 +101,7 @@ app.component('side-bar', {
 					</tbody>
 				</table>
 
-				<p class="center">
+				<p class="center" v-if="Object.entries(cart).length == 0">
 					<em>No items in cart</em>
 				</p>
 				<div class="spread">
