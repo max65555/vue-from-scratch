@@ -6,11 +6,19 @@ let app = Vue.createApp({
 			cart: {},
 		};
 	},
+
 	async mounted() {
 		const res = await fetch('./food.json');
 		const data = await res.json();
 		this.inventory = data;
 		// console.log(this.inventory);
+	},
+	computed: {
+		totalQuantity() {
+			return Object.values(this.cart).reduce((sum, curr) => {
+				return sum + curr;
+			}, 0);
+		},
 	},
 	methods: {
 		addToCart(name, index) {
@@ -25,9 +33,6 @@ let app = Vue.createApp({
 		removeItem(name) {
 			console.log(name);
 			delete this.cart[name];
-		},
-		totalQuantity() {
-			return Object.entries(this.cart).length;
 		},
 	},
 });
@@ -91,7 +96,7 @@ app.component('side-bar', {
 							<td>{{key}}</td>
 							<td>\${{getPrice(key)}}</td>
 							<td class="center">{{quantity}}</td>
-							<td>\${{quantity * getPrice(key)}}</td>
+							<td>\${{(quantity * getPrice(key)).toFixed(2)}}</td>
 							<td class="center">
 								<button @click="remove(key)" class="btn btn-light cart-remove">
 									&times;

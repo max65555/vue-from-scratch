@@ -23,9 +23,9 @@
           <span>Past Orders</span>
         </a>
       </nav>
-      <a href="#" class="top-bar-cart-link">
+      <a class="top-bar-cart-link" @click="showSideBar">
         <i class="icofont-cart-alt icofont-1x"></i>
-        <span>Cart (0)</span>
+        <span>Cart ({{totalQuantity}})</span>
       </a>
     </header>
 
@@ -262,11 +262,13 @@
         </div>
       </div>
     </main>
-
-
+    <side-bar v-if="isSideBarHiding ==true" :toggle="showSideBar" :cart="cart" :inventory="inventory"
+      :remove="removeItem" />
 
   </div>
 
+  <script src="../vuejs_global.js"></script>
+  <script src="../components/app.js"></script>
 </body>
 
 
